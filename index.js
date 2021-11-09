@@ -1,6 +1,6 @@
 class MyArray {
     constructor() {
-        for (let i = 0; i < arguments.length; i++) {
+        for (let i = 0, len = arguments.length; i < len; i++) {
             this[i] = arguments[i]
         }
         this.length = arguments.length;
@@ -26,8 +26,11 @@ class MyArray {
     }
 
     concat() {
-        for (let i = 0; i < arguments.length; i++) {
+        for (let i = 0, len = arguments.length; i < len; i++) {
             let arr = arguments[i];
+            if (!(arr instanceof MyArray)) {
+                throw new Error('Arguments must be instance of MyArray');
+            }
             for (let j = 0; j < arr.length; j++) {
                 this.push(arr[j]);
             }
@@ -35,9 +38,13 @@ class MyArray {
         return this;
     }
 
-    push(el) {
-        this.length = this.length + 1;
-        this[this.length - 1] = el;
+    push() {
+        for (let i = 0, len = arguments.length; i < len; i++) {
+            const el = arguments[i];
+            this.length = this.length + 1;
+            this[this.length - 1] = el;
+        }
+        return this.length;
     }
 
     reverse() {
